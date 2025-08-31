@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Portal - Ajeenkya DY Patil School of Engineering</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+      color: #333;
+    }
+    header {
+      background: #b22222;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    nav {
+      background: #333;
+      display: flex;
+      justify-content: center;
+    }
+    nav a {
+      color: white;
+      padding: 14px 20px;
+      text-decoration: none;
+    }
+    nav a:hover {
+      background: #555;
+    }
+    section {
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+    h2 {
+      border-bottom: 2px solid #b22222;
+      padding-bottom: 5px;
+    }
+    .notes a {
+      display: block;
+      margin: 8px 0;
+      padding: 10px;
+      background: #eee;
+      border-radius: 5px;
+      text-decoration: none;
+      color: #333;
+    }
+    .notes a:hover {
+      background: #ddd;
+    }
+    form {
+      margin-top: 15px;
+      padding: 15px;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    form input, form button {
+      padding: 10px;
+      margin: 5px 0;
+      width: 100%;
+    }
+    footer {
+      text-align: center;
+      padding: 10px;
+      background: #333;
+      color: white;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Student Portal</h1>
+    <p>Ajeenkya DY Patil School of Engineering</p>
+  </header>
+
+  <nav>
+    <a href="#notes">Notes</a>
+    <a href="#attendance">Attendance</a>
+  </nav>
+
+  <section id="notes">
+    <h2>Download Notes</h2>
+    <div class="notes">
+      <a href="notes/Unit1.pdf" download>📘 Unit 1 Notes</a>
+      <a href="notes/Unit2.pdf" download>📘 Unit 2 Notes</a>
+      <a href="notes/Unit3.pdf" download>📘 Unit 3 Notes</a>
+    </div>
+  </section>
+
+  <section id="attendance">
+    <h2>Mark Attendance</h2>
+    <form id="attendanceForm">
+      <label for="name">Enter Name:</label>
+      <input type="text" id="name" name="name" required>
+      
+      <label for="roll">Enter Roll Number:</label>
+      <input type="text" id="roll" name="roll" required>
+      
+      <button type="submit">Submit Attendance</button>
+    </form>
+    <p id="status"></p>
+  </section>
+
+  <footer>
+    <p>© 2025 Ajeenkya DY Patil School of Engineering</p>
+  </footer>
+
+  <script>
+    const API_BASE = "https://your-backend-url.onrender.com"; // replace later with FastAPI backend URL
+    
+    document.getElementById("attendanceForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const roll = document.getElementById("roll").value;
+
+      try {
+        let res = await fetch(`${API_BASE}/attendance`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, roll })
+        });
+        let data = await res.json();
+        document.getElementById("status").innerText = "✅ Attendance marked successfully!";
+      } catch (err) {
+        document.getElementById("status").innerText = "❌ Error submitting attendance.";
+      }
+    });
+  </script>
+</body>
+</html>
